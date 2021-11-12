@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gluten:wght@900&display=swap');
+
+html {
+    margin:auto 0;
+    font-family: 'Special Elite', cursive;
+    min-height: 100vh;
+}
+
+#title-wrapper {
+    margin: 2em 2% 2em;
+}
+
+#title-bar {
+    text-align: center;
+    background-color: black;
+    color: white;
+    margin: 0.5em 25%;
+    padding: 3% 2% 3%;
+    border-radius: 1rem;
+    font-size: 5em;
+}
+
+#game-board {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    padding: 3em;
+    margin: 0%;
+}
+
+.grid-square {
+    background-color: white;
+    margin: 0;
+    border-width: 5px;
+    border-color:black;
+    text-align: center;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    font-size: 4em;
+}
+
+#one {
+    border-right-style: solid;
+    border-bottom-style: solid;
+    
+}
+
+#three {
+    border-left-style: solid;
+    border-bottom-style: solid;
+}
+
+#seven {
+    border-right-style: solid;
+    border-top-style: solid;
+}
+
+#nine {
+    border-left-style: solid;
+    border-top-style: solid;
+}
+
+#two{
+    border-bottom-style: solid;
+}
+
+#four {
+    border-right-style: solid;
+}
+
+#six {
+    border-left-style: solid;
+}
+
+#eight {
+    border-top-style: solid;
+}
+
+#button-group {
+    margin: 0% 25%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.button {
+    margin: 1em;
+    padding: 0.3em 1.2em;
+    background-color: black;
+    border-radius: 1rem;
+    color: white;
+    font-family: 'Gluten', cursive;
+    font-size: 3em;
+    border: solid 1px black;
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+}
+
