@@ -1,6 +1,91 @@
 //GAMEBOARD MODULE
 const gameboard = (() => {
+    let gameArray;
+   
+
+    const checkWinning = (gameArray) => {
+        if (gameArray[0] == "X" && gameArray[1] == "X" && gameArray[2] == "X") {
+            alert("X WINS");
+        } else if (gameArray[3] == "X" && gameArray[4] == "X" && gameArray[5] == "X") {
+            alert("X WINS");
+        } else if (gameArray[6] == "X" && gameArray[7] == "X" && gameArray[8] == "X") {
+            alert("X WINS");
+        } else if (gameArray[0] == "X" && gameArray[3] == "X" && gameArray[6] == "X") {
+            alert("X WINS");
+        } else if (gameArray[1] == "X" && gameArray[4] == "X" && gameArray[7] == "X") {
+            alert("X WINS");
+        } else if (gameArray[2] == "X" && gameArray[5] == "X" && gameArray[8] == "X") {
+            alert("X WINS");
+        } else if (gameArray[0] == "X" && gameArray[4] == "X" && gameArray[8] == "X") {
+            alert("X WINS");
+        } else if (gameArray[6] == "X" && gameArray[4] == "X" && gameArray[2] == "X") {
+            alert("X WINS");
+        } else if (gameArray[0] == "O" && gameArray[1] == "O" && gameArray[2] == "O") {
+            alert("O WINS");
+        } else if (gameArray[3] == "O" && gameArray[4] == "O" && gameArray[5] == "O") {
+            alert("O WINS");
+        } else if (gameArray[6] == "O" && gameArray[7] == "O" && gameArray[8] == "O") {
+            alert("O WINS");
+        } else if (gameArray[0] == "O" && gameArray[3] == "O" && gameArray[6] == "O") {
+            alert("O WINS");
+        } else if (gameArray[1] == "O" && gameArray[4] == "O" && gameArray[7] == "O") {
+            alert("O WINS");
+        } else if (gameArray[2] == "O" && gameArray[5] == "O" && gameArray[8] == "O") {
+            alert("O WINS");
+        } else if (gameArray[0] == "O" && gameArray[4] == "O" && gameArray[8] == "O") {
+            alert("O WINS");
+        } else if (gameArray[6] == "O" && gameArray[4] == "O" && gameArray[2] == "O") {
+            alert("O WINS");
+        } 
+    }
+    const setBoard = () => {
+        const squareOne = document.getElementById("one").innerText;
+        const squareTwo = document.getElementById("two").innerText;
+        const squareThree = document.getElementById("three").innerText;
+        const squareFour = document.getElementById("four").innerText;
+        const squareFive = document.getElementById("five").innerText;
+        const squareSix = document.getElementById("six").innerText;
+        const squareSeven = document.getElementById("seven").innerText;
+        const squareEight = document.getElementById("eight").innerText;
+        const squareNine = document.getElementById("nine").innerText;
+        
+        /*console.log(squareOne)
+        console.log(squareTwo) 
+        console.log(squareThree)
+        console.log(squareFour) 
+        console.log(squareFive) 
+        console.log(squareSix)
+        console.log(squareSeven) 
+        console.log(squareEight)
+        console.log(squareNine)*/
+
+        gameArray = [squareOne, squareTwo, squareThree,
+            squareFour, squareFive, squareSix,
+            squareSeven, squareEight, squareNine];
+        console.log(gameArray);
+        checkWinning(gameArray);
+
+    }
     
+
+
+
+    /* winningCondition = 123, 456, 789, 147, 258, 369   gameArray[]*/
+
+
+
+
+
+  
+    
+   
+    
+
+    return {
+        setBoard
+    }
+    
+
   })();
 
 
@@ -34,8 +119,8 @@ const UI = (() => {
 gridsquare = UI.gridsquare;
 gridsquare.forEach(square => {
     square.addEventListener('click', () => {
-        console.log(square.innerText);
         UI.placePiece(square);
-        console.log(square.innerText);
+        gameboard.setBoard();
+        
     });
 });
