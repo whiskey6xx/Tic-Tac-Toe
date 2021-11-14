@@ -38,6 +38,9 @@ const gameboard = (() => {
             alert("O WINS");
         } 
     }
+
+    /* check for tie */
+
     const setBoard = () => {
         const squareOne = document.getElementById("one").innerText;
         const squareTwo = document.getElementById("two").innerText;
@@ -84,6 +87,7 @@ const UI = (() => {
         }  
     } 
 
+    /* clear board */
     return {
         placePiece,
         gridsquare
