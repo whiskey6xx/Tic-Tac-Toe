@@ -48,16 +48,6 @@ const gameboard = (() => {
         const squareSeven = document.getElementById("seven").innerText;
         const squareEight = document.getElementById("eight").innerText;
         const squareNine = document.getElementById("nine").innerText;
-        
-        /*console.log(squareOne)
-        console.log(squareTwo) 
-        console.log(squareThree)
-        console.log(squareFour) 
-        console.log(squareFive) 
-        console.log(squareSix)
-        console.log(squareSeven) 
-        console.log(squareEight)
-        console.log(squareNine)*/
 
         gameArray = [squareOne, squareTwo, squareThree,
             squareFour, squareFive, squareSix,
@@ -66,20 +56,6 @@ const gameboard = (() => {
         checkWinning(gameArray);
 
     }
-    
-
-
-
-    /* winningCondition = 123, 456, 789, 147, 258, 369   gameArray[]*/
-
-
-
-
-
-  
-    
-   
-    
 
     return {
         setBoard
