@@ -74,13 +74,24 @@ const gameboard = (() => {
                 console.log(i);
             }
         if (i == 9) {
-            console.log('tie');
             alert("TIE");
-            UI.resetGame();
+            resetBoard();
         }
         })
     }
     
+    const resetBoard = () => {
+        UI.gridsquare.forEach(square => {
+            square.innerText = '';
+        })
+        UI.resetButtons();
+        twoPlayer = UI.twoPlayerButton;
+        twoPlayer.addEventListener('click', () => {
+            gamemodes.startTwoPlayer();
+            UI.clearButtons();
+        });
+    }
+
     const setBoard = () => {
         const squareOne = document.getElementById("one").innerText;
         const squareTwo = document.getElementById("two").innerText;
@@ -94,10 +105,9 @@ const gameboard = (() => {
         gameArray = [squareOne, squareTwo, squareThree,
             squareFour, squareFive, squareSix,
             squareSeven, squareEight, squareNine];
-        console.log(gameArray)
         if (checkWinning(gameArray) == true) {
             alert(winningMessage);
-            UI.resetGame();
+            resetBoard();
         }   else {
             checkForTie(gameArray);
         }  
@@ -119,9 +129,7 @@ const UI = (() => {
         if (target.innerText ==! "<empty string>") {
             target.innerText = marker;
             changeMarker();
-        } else {
-            alert("Don't do that")
-        }
+        } 
     } 
 
     const changeMarker = () => {
@@ -136,12 +144,47 @@ const UI = (() => {
         location.reload();
     }
 
+    const clearButtons = () => {
+        onePlayerButton.remove();
+        twoPlayerButton.remove();
+    }
+    
+    const resetButtons = () => {
+        const div1 = document.createElement('div');
+        const div2 = document.createElement('div');
+        div1.idName = '1p';
+        div2.idName = '2p';
+        div1.className = 'button';
+        div2.className = 'button';
+        div1.appendChild(document.createTextNode('i'));
+        div2.appendChild(document.createTextNode('ii'));
+        const wrapper = document.querySelector('#button-group');
+        wrapper.appendChild(div1);
+        wrapper.appendChild(div2);
+    }
+
+    const showAlert = (message) => {
+        const div = document.createElement('div');
+        div.className = 'alert';
+        div.appendChild(document.createTextNode(message));
+        const wrapper = document.querySelector('#alert-wrapper');
+        wrapper.appendChild(div);
+        
+        //vanish in 3 seconds
+        setTimeout(() => document.querySelector('.alert').remove(), 
+        3000);
+    }
+
+
     return {
         placePiece,
         gridsquare,
         onePlayerButton,
         twoPlayerButton,
-        resetGame
+        resetGame,
+        clearButtons,
+        showAlert,
+        resetButtons
     };
 })();
 
@@ -149,8 +192,9 @@ const UI = (() => {
 const gamemodes = (() => {
     const gridsquare = UI.gridsquare;
     const startTwoPlayer = () => {
-        alert("Two Player Selected!");
+        UI.showAlert("2PLAYER");
         gridsquare.forEach(square => {
+            console.log(square.innerText)
             square.addEventListener('click', () => {
                 UI.placePiece(square);
                 gameboard.setBoard();     
@@ -168,5 +212,6 @@ const gamemodes = (() => {
 twoPlayer = UI.twoPlayerButton;
 twoPlayer.addEventListener('click', () => {
     gamemodes.startTwoPlayer();
+    UI.clearButtons();
 });
 

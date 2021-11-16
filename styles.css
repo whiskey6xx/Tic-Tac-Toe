@@ -81,7 +81,7 @@ html {
 }
 
 #button-group {
-    margin: 0% 25%;
+    margin-top: 1em;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -90,7 +90,8 @@ html {
 }
 
 .button {
-    margin: 1em;
+    margin-left: 1em;
+    margin-right: 1em;
     padding: 0.3em 1.2em;
     background-color: black;
     border-radius: 1rem;
@@ -105,3 +106,22 @@ html {
     color: black;
 }
 
+#alert-wrapper {
+    margin-left: 33%;
+    margin-right: 33%;
+    display: flex;
+    justify-content: center; 
+    align-items: flex-end; 
+}
+
+.alert {
+    text-align: center;
+    background-color: white;
+    color: black;
+    margin-right: 25%;
+    margin-left: 25%;
+    padding: 1em;
+    border: solid 1px black;
+    border-radius: 1rem;
+    font-size: 1.5em;
+}
