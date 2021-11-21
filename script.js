@@ -1,5 +1,6 @@
-//GAMEBOARD MODULE
-const gameboard = (() => {
+//game board
+const gameBoard = (() => {
+    let winCount = 0;
     let winningMessage;
 
     const setWinningMessageX = () => {
@@ -73,23 +74,12 @@ const gameboard = (() => {
                 i += 1;
                 console.log(i);
             }
-        if (i == 9) {
-            alert("TIE");
-            resetBoard();
+        if (i == 9 && winCount == 0) {
+            winCount = 1;
+            UI.showAlert("TIE");
+            UI.disableBoard();
         }
         })
-    }
-    
-    const resetBoard = () => {
-        UI.gridsquare.forEach(square => {
-            square.innerText = '';
-        })
-        UI.resetButtons();
-        twoPlayer = UI.twoPlayerButton;
-        twoPlayer.addEventListener('click', () => {
-            gamemodes.startTwoPlayer();
-            UI.clearButtons();
-        });
     }
 
     const setBoard = () => {
@@ -105,9 +95,10 @@ const gameboard = (() => {
         gameArray = [squareOne, squareTwo, squareThree,
             squareFour, squareFive, squareSix,
             squareSeven, squareEight, squareNine];
-        if (checkWinning(gameArray) == true) {
-            alert(winningMessage);
-            resetBoard();
+        if (checkWinning(gameArray) == true && winCount == 0) {
+            winCount = 1;
+            UI.showAlert(winningMessage)
+            UI.disableBoard();
         }   else {
             checkForTie(gameArray);
         }  
@@ -116,53 +107,38 @@ const gameboard = (() => {
     return {
         setBoard
     }
-    
-  })();
 
-//UI MODULE
+})();
+
+//player
+const players = (() => {
+    const playerOne = "X";
+    const playerTwo = "O";
+
+
+    return {
+        playerOne,
+        playerTwo
+    }
+
+})();
+
+//UI
 const UI = (() => {
+    
+    //elements
+    let marker = players.playerOne;
     const gridsquare = document.querySelectorAll('.grid-square');
     const onePlayerButton = document.getElementById('1p');
     const twoPlayerButton = document.getElementById('2p');
-    marker = "X";
-    const placePiece = (target) => {
-        if (target.innerText ==! "<empty string>") {
-            target.innerText = marker;
-            changeMarker();
-        } 
-    } 
 
-    const changeMarker = () => {
-        if (marker === "X") {
-            marker = "O";
-        } else if (marker = "O") {
-            marker = "X";
-        }  
-    }
-
-    const resetGame = () => {
-        location.reload();
-    }
-
+    //clear gamemode buttons
     const clearButtons = () => {
         onePlayerButton.remove();
         twoPlayerButton.remove();
     }
-    
-    const resetButtons = () => {
-        const div1 = document.createElement('div');
-        const div2 = document.createElement('div');
-        div1.idName = '1p';
-        div2.idName = '2p';
-        div1.className = 'button';
-        div2.className = 'button';
-        div1.appendChild(document.createTextNode('i'));
-        div2.appendChild(document.createTextNode('ii'));
-        const wrapper = document.querySelector('#button-group');
-        wrapper.appendChild(div1);
-        wrapper.appendChild(div2);
-    }
 
+    //show alert
     const showAlert = (message) => {
         const div = document.createElement('div');
         div.className = 'alert';
@@ -175,43 +151,126 @@ const UI = (() => {
         3000);
     }
 
+    //place marker
+    const placePiece = (target) => {
+        if (target.innerText ==! "<empty string>") {
+            target.innerText = marker;
+            changeMarker();
+        } 
+    } 
+
+    //change marker
+    const changeMarker = () => {
+        if (marker === players.playerOne) {
+            marker = players.playerTwo;
+        } else if (marker = players.playerTwo) {
+            marker = players.playerOne;
+        }  
+    }
+
+    //place and set 
+    const placeAndSet = (square) => {
+        placePiece(square);
+        gameBoard.setBoard();
+    }
+
+
+    //add listener to board
+    const boardListener = () => {
+        gridsquare.forEach(square => {
+            square.addEventListener('click', () => {
+                placeAndSet(square);
+            });
+        });
+    }
+
+    //disable board
+    const disableBoard = () => {
+        gridsquare.forEach(square => {
+            if (square.innerText == '') {
+                square.innerText = "-";
+                square.style.color = "#ffffff";
+            }
+        })
+        resetButton();
+    }
+
+    const resetGame = () => {
+        location.reload();
+    }
+
+    const resetButton = () => {
+        let check = document.getElementById('reset')
+        if (check === null) {
+            const div1 = document.createElement('div');
+            div1.idName = 'reset';
+            div1.className = 'button';
+            div1.appendChild(document.createTextNode('RESET'));
+            const wrapper = document.querySelector('#button-group');
+            wrapper.appendChild(div1);
+
+            div1.addEventListener("click", () => {
+                resetGame();
+            })
+            check = div1;
+        }
+
+        
+    }
 
     return {
-        placePiece,
         gridsquare,
         onePlayerButton,
         twoPlayerButton,
-        resetGame,
         clearButtons,
         showAlert,
-        resetButtons
-    };
-})();
-
-//GAME MODES
-const gamemodes = (() => {
-    const gridsquare = UI.gridsquare;
-    const startTwoPlayer = () => {
-        UI.showAlert("2PLAYER");
-        gridsquare.forEach(square => {
-            console.log(square.innerText)
-            square.addEventListener('click', () => {
-                UI.placePiece(square);
-                gameboard.setBoard();     
-            });
-        });
-    };
-
-    return{
-        startTwoPlayer
+        boardListener,
+        placePiece,
+        disableBoard
     }
 
 })();
 
-//RUN THE GAME
-twoPlayer = UI.twoPlayerButton;
-twoPlayer.addEventListener('click', () => {
-    gamemodes.startTwoPlayer();
-    UI.clearButtons();
-});
+//flow
+const gamemodes = (() => {
+    const twoPlayerMode = () => {
+        UI.twoPlayerButton.addEventListener('click', () => {
+            UI.clearButtons();
+            UI.showAlert("2P SELECTED");
+            UI.boardListener();
+        });
+    }
+
+    return {
+        twoPlayerMode
+    }
+
+})();
+
+
+//main
+const check = document.getElementById('reset');
+console.log(check)
+gamemodes.twoPlayerMode();
+
+
+
+/* 
+ 1.page loads X
+ 2.listener on gamemode buttons X
+ 3.2p clicked X
+ 4.buttons removed X
+ 5.2p message for 3 seconds X
+ 6.listeners on board X
+ 7.X is default marker X
+ 8.click on board to place piece X
+ 9.check board for win/tie
+ 10.marker changed to O
+ 11.On win/tie, display message
+ 12.disable board
+ 13.create restart button
+ 14.add listener to restart button 
+ 15.restart clicked
+ 16.reload page 
+*/
 
