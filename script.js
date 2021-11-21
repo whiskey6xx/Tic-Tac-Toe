@@ -211,19 +211,43 @@ const UI = (() => {
         let check = document.getElementById('reset')
         if (check === null) {
             const div1 = document.createElement('div');
-            div1.idName = 'reset';
+            div1.id = 'reset';
             div1.className = 'button';
             div1.appendChild(document.createTextNode('RESET'));
             const wrapper = document.querySelector('#button-group');
             wrapper.appendChild(div1);
-
             div1.addEventListener("click", () => {
                 resetGame();
             })
             check = div1;
         }
+    }
 
-        
+    const xoButtons = () => {
+        const div1 = document.createElement('div');
+        const div2 = document.createElement('div');
+        div1.id = 'x';
+        div2.id = 'o';
+        div1.className = 'button';
+        div2.className = 'button';
+        div1.appendChild(document.createTextNode('X'));
+        div2.appendChild(document.createTextNode('O'));
+        const wrapper = document.querySelector('#button-group');
+        wrapper.appendChild(div1);
+        wrapper.appendChild(div2);
+        div1.addEventListener("click", () => {
+            div1.remove();
+            div2.remove();
+            showAlert("1P SELECTED")
+            boardListener2();
+        })
+        div2.addEventListener('click', () => {
+            div1.remove();
+            div2.remove();
+            showAlert("1P SELECTED")
+            AI.placePiece();
+            boardListener2();
+        })
     }
 
     return {
@@ -235,7 +259,8 @@ const UI = (() => {
         boardListener,
         boardListener2,
         placePiece,
-        disableBoard
+        disableBoard,
+        xoButtons
     }
 
 })();
@@ -253,8 +278,9 @@ const gamemodes = (() => {
     const onePlayerMode = () => {
         UI.onePlayerButton.addEventListener('click', () => {
             UI.clearButtons();
-            UI.showAlert("1P SELECTED");
-            UI.boardListener2();
+            //UI.showAlert("1P SELECTED");
+            UI.xoButtons();
+            //UI.boardListener2();
         });
     }
 
@@ -321,3 +347,12 @@ gamemodes.twoPlayerMode();
  16.reload page X
 */
 
+/* 
+2 player x
+1.the user selected 2p mode x
+2.a prompt to select their marker appears x
+3.the prompt disappears x
+4.if the player picks X, they get to go first and the computer waits until they went to place a piece x
+5.if the player picks O, the computer goes firstm and then the player can go x
+6.the game runs until a win or a tie and the option to restart appears x
+*/
