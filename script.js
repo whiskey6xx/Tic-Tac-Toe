@@ -184,6 +184,14 @@ const UI = (() => {
         });
     }
 
+    const boardListener2 = () => {
+        gridsquare.forEach(square => {
+            square.addEventListener('click', () => {
+                placeAndSet(square);
+                AI.placePiece();
+            });
+        });
+    }
     //disable board
     const disableBoard = () => {
         gridsquare.forEach(square => {
@@ -225,6 +233,7 @@ const UI = (() => {
         clearButtons,
         showAlert,
         boardListener,
+        boardListener2,
         placePiece,
         disableBoard
     }
@@ -241,17 +250,55 @@ const gamemodes = (() => {
         });
     }
 
-    return {
-        twoPlayerMode
+    const onePlayerMode = () => {
+        UI.onePlayerButton.addEventListener('click', () => {
+            UI.clearButtons();
+            UI.showAlert("1P SELECTED");
+            UI.boardListener2();
+        });
     }
+
+    return {
+        twoPlayerMode,
+        onePlayerMode
+    }
+
+})();
+
+const AI = (() => {
+    //the AI, should do the following
+    //get the array of all the squares
+    //check which squares are unoccupied
+    //add those squares to a array
+    //grab a random square from the array
+    //place their piece
+
+    const placePiece = () => {
+        const gridsquare = UI.gridsquare;
+        let available = [];
+        gridsquare.forEach(square => {
+            console.log(square.innerText);
+            if (square.innerText == "") {
+                available.push(square);
+            }
+        })
+        let selected = available[Math.floor(Math.random()*available.length)];
+        console.log(selected);
+        UI.placePiece(selected);
+        gameBoard.setBoard();
+    }
+    
+
+
+    return {placePiece}
 
 })();
 
 
 //main
-const check = document.getElementById('reset');
-console.log(check)
+gamemodes.onePlayerMode();
 gamemodes.twoPlayerMode();
+
 
 
 
@@ -264,13 +311,13 @@ gamemodes.twoPlayerMode();
  6.listeners on board X
  7.X is default marker X
  8.click on board to place piece X
- 9.check board for win/tie
- 10.marker changed to O
- 11.On win/tie, display message
- 12.disable board
- 13.create restart button
- 14.add listener to restart button 
- 15.restart clicked
- 16.reload page 
+ 9.check board for win/tie X
+ 10.marker changed to O X
+ 11.On win/tie, display message X
+ 12.disable board X
+ 13.create restart button X
+ 14.add listener to restart button X
+ 15.restart clicked X
+ 16.reload page X
 */
 
